@@ -182,7 +182,7 @@ Keep responses concise (2-4 sentences). If they ask about specific products, enc
             // Query Pinecone
             const queryResponse = await index.query({
                 vector: vector,
-                topK: 10, // Get more to filter duplicates
+                topK: 20, // Get more to ensure we have enough after filtering
                 includeMetadata: true,
             });
 
@@ -212,6 +212,16 @@ Keep responses concise (2-4 sentences). If they ask about specific products, enc
                 // Skip low-quality matches (score threshold)
                 if (match.score < 0.3) {
                     console.log(`Skipping low score (${match.score}): ${match.id}`);
+                    continue;
+                }
+
+                // Skip products with missing critical metadata
+                const hasValidMetadata = match.metadata?.["Product Summary"] || match.metadata?.text;
+                const hasValidPrice = match.metadata?.Price || match.metadata?.price;
+                const hasValidImage = match.metadata?.["Image URL"] || match.metadata?.image;
+
+                if (!hasValidMetadata || !hasValidPrice || !hasValidImage) {
+                    console.log(`Skipping product with missing metadata: ${match.id}`);
                     continue;
                 }
 
