@@ -110,7 +110,7 @@ app.post('/api/chat', async (req, res) => {
                     messages: [
                         {
                             role: "system",
-                            content: "You are a helpful, friendly, and stylish fashion assistant for a brand called 'LUMIÈRE'. Respond to the user's greeting warmly and ask how you can help them find their perfect style today. Keep it concise (2-3 sentences max)."
+                            content: "You are a helpful, friendly, and stylish fashion assistant for a brand called 'Mercato'. Respond to the user's greeting warmly and ask how you can help them find their perfect style today. Keep it concise (2-3 sentences max)."
                         },
                         {
                             role: "user",
@@ -140,7 +140,7 @@ app.post('/api/chat', async (req, res) => {
                     messages: [
                         {
                             role: "system",
-                            content: `You are a helpful fashion assistant for LUMIÈRE, a premium fashion brand. Answer questions about:
+                            content: `You are a helpful fashion assistant for Mercato, a premium fashion brand. Answer questions about:
 - What products we sell (shirts, dresses, pants, shoes, accessories for men and women)
 - How to use the chatbot (just ask for products like "black shirt" or "red dress")
 - Fashion advice and styling tips
