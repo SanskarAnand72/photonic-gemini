@@ -45,7 +45,7 @@ const Chatbot = () => {
         try {
             // Create abort controller for timeout
             const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 second timeout
+            const timeoutId = setTimeout(() => controller.abort(), 120000); // 120 second timeout for cold starts
 
             console.log('🚀 Sending request to:', `${API_URL}/api/chat`);
 
@@ -79,7 +79,7 @@ const Chatbot = () => {
             let errorMessage = "Sorry, I'm having trouble connecting to the server right now. Please try again later.";
 
             if (error.name === 'AbortError') {
-                errorMessage = "Request timed out. The server might be waking up (cold start). Please try again in a moment.";
+                errorMessage = "⏳ The server is taking longer than expected. This can happen on the first product search (downloading AI model) or after inactivity (cold start). Please try again - it should be faster next time!";
             } else if (error.message) {
                 errorMessage = error.message;
             }
