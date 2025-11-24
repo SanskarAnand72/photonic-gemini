@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { MessageCircle, X, Send, Mic, Image as ImageIcon, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ProductCard from '../Product/ProductCard';
+import { API_URL } from '../../config';
 
 const OCCASIONS = [
     { id: 'party', label: '🎉 Party', query: 'party outfit' },
@@ -42,7 +43,7 @@ const Chatbot = () => {
         setIsTyping(true);
 
         try {
-            const response = await fetch('http://localhost:5000/api/chat', {
+            const response = await fetch(`${API_URL}/api/chat`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
