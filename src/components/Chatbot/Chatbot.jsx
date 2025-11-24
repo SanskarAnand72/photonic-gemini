@@ -43,13 +43,23 @@ const Chatbot = () => {
         setIsTyping(true);
 
         try {
+            // Create abort controller for timeout
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 second timeout
+
+            console.log('🚀 Sending request to:', `${API_URL}/api/chat`);
+
             const response = await fetch(`${API_URL}/api/chat`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ message: text }),
+                signal: controller.signal
             });
+
+            clearTimeout(timeoutId);
+            console.log('✅ Response received:', response.status);
 
             const data = await response.json();
 
@@ -64,11 +74,20 @@ const Chatbot = () => {
                 throw new Error(data.error || data.text || 'Failed to fetch response');
             }
         } catch (error) {
-            console.error("Error sending message:", error);
+            console.error("❌ Error sending message:", error);
+
+            let errorMessage = "Sorry, I'm having trouble connecting to the server right now. Please try again later.";
+
+            if (error.name === 'AbortError') {
+                errorMessage = "Request timed out. The server might be waking up (cold start). Please try again in a moment.";
+            } else if (error.message) {
+                errorMessage = error.message;
+            }
+
             setMessages(prev => [...prev, {
                 id: Date.now() + 1,
                 type: 'bot',
-                text: error.message || "Sorry, I'm having trouble connecting to the server right now. Please try again later.",
+                text: errorMessage,
                 products: []
             }]);
         } finally {
