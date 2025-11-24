@@ -17,7 +17,7 @@ const Chatbot = () => {
         {
             id: 1,
             type: 'bot',
-            text: "Hi there! I'm your personal fashion assistant. Looking for something specific or need styling advice?",
+            text: "Hi there! I'm your personal fashion assistant at Mercato. Looking for something specific or need styling advice?",
             products: []
         }
     ]);
